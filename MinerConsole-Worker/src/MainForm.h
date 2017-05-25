@@ -24,6 +24,7 @@ public:
 	
 private slots:
 	void writeToConsole(QString text);
+	void openSettings();
 	
 private:
 	void parseEscapeSequence(int attribute, QListIterator< QString > & i, QTextCharFormat & textCharFormat, QTextCharFormat const & defaultTextCharFormat);

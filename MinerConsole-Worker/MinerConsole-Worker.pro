@@ -14,7 +14,8 @@ SOURCES += \
     src/AdminPipe.cpp \
     src/AdminListener.cpp \
     src/Miners/ClaymoreEthDualMiner.cpp \
-    src/Miners/MinergateMiner.cpp
+    src/Miners/MinergateMiner.cpp \
+    src/SettingsDlg.cpp
 
 HEADERS += \
     src/MainForm.h \
@@ -24,12 +25,14 @@ HEADERS += \
     src/AdminPipe.h \
     src/AdminListener.h \
     src/Miners/ClaymoreEthDualMiner.h \
-    src/Miners/MinergateMiner.h
+    src/Miners/MinergateMiner.h \
+    src/SettingsDlg.h
 
 FORMS += \
     src/MainForm.ui \
     src/StatusBarTimeDisplay.ui \
-    src/StatusBarMinerState.ui
+    src/StatusBarMinerState.ui \
+    src/SettingsDlg.ui
 
 OBJECTS_DIR = ../tmp/$$TARGET
 UI_DIR = ../tmp/$$TARGET

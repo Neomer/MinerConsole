@@ -2,6 +2,7 @@
 #include "ui_MainForm.h"
 #include "AdminListener.h"
 #include <QHostAddress>
+#include "SettingsDlg.h"
 
 MainForm::MainForm(QWidget *parent) :
 	QMainWindow(parent),
@@ -17,6 +18,7 @@ MainForm::MainForm(QWidget *parent) :
 	connect(ui->actionStart_2, SIGNAL(triggered(bool)), _miner, SLOT(start()));
 	connect(ui->actionStop, SIGNAL(triggered(bool)), _miner, SLOT(stop()));
 	connect(ui->actionStop_2, SIGNAL(triggered(bool)), _miner, SLOT(stop()));
+	connect(ui->actionSettings, SIGNAL(triggered(bool)), this, SLOT(openSettings()));
 	
 	StatusBarMinerState * mswgt = new StatusBarMinerState(this);
 	ui->StatusBar->addWidget(new StatusBarTimeDisplay(this));
@@ -46,6 +48,16 @@ void MainForm::writeToConsole(QString text)
 		ui->txtConsole->clear();
 	}
 	setTextTermFormatting(ui->txtConsole, text);
+}
+
+void MainForm::openSettings()
+{
+	SettingsDlg *dlg = new SettingsDlg(this);
+	if (dlg->exec() == QDialog::Accepted)
+	{
+		
+	}
+	delete dlg;
 }
 
 
