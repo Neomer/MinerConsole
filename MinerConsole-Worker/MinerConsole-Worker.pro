@@ -12,7 +12,9 @@ SOURCES += \
     src/StatusBarMinerState.cpp \
     src/Miner.cpp \
     src/AdminPipe.cpp \
-    src/AdminListener.cpp
+    src/AdminListener.cpp \
+    src/Miners/ClaymoreEthDualMiner.cpp \
+    src/Miners/MinergateMiner.cpp
 
 HEADERS += \
     src/MainForm.h \
@@ -20,7 +22,9 @@ HEADERS += \
     src/StatusBarMinerState.h \
     src/Miner.h \
     src/AdminPipe.h \
-    src/AdminListener.h
+    src/AdminListener.h \
+    src/Miners/ClaymoreEthDualMiner.h \
+    src/Miners/MinergateMiner.h
 
 FORMS += \
     src/MainForm.ui \
@@ -30,3 +34,6 @@ FORMS += \
 OBJECTS_DIR = ../tmp/$$TARGET
 UI_DIR = ../tmp/$$TARGET
 MOC_DIR = ../tmp/$$TARGET
+
+RESOURCES += \
+    res/res.qrc

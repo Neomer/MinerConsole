@@ -38,13 +38,13 @@ void StatusBarMinerState::updateState()
 		}
 		else
 		{
-			ui->lblState->setText(tr("Stop"));
+			ui->lblState->setText(tr("Not running"));
 			ui->lblState->setStyleSheet("QLabel { color : #BB0000; font-weight: bold; }");
 		}
 	}
 	else
 	{
-		ui->lblState->setText(tr("Stop"));
+		ui->lblState->setText(tr("Not running"));
 		ui->lblState->setStyleSheet("QLabel { color : #BB0000; font-weight: bold; }");
 	}
 }

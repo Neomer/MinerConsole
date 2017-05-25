@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QTcpServer>
+#include "AdminPipe.h"
+
 
 class AdminListener : public QTcpServer
 {
@@ -10,13 +12,15 @@ class AdminListener : public QTcpServer
 public:
 	explicit AdminListener(QObject *parent = 0);
 	
-signals:
-	
-public slots:
-	
+	void setPipe(AdminPipe *value) { _pipe = value; }
+	AdminPipe *getPipe() { return _pipe; }
+
 private slots:
 	void acceptConnection();
+	void acceptError(QAbstractSocket::SocketError err);
 	
+private:
+	AdminPipe *_pipe; 
 };
 
 #endif // ADMINLISTENER_H
