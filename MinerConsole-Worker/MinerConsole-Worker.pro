@@ -15,7 +15,8 @@ SOURCES += \
     src/AdminListener.cpp \
     src/Miners/ClaymoreEthDualMiner.cpp \
     src/Miners/MinergateMiner.cpp \
-    src/SettingsDlg.cpp
+    src/SettingsDlg.cpp \
+    src/Settings.cpp
 
 HEADERS += \
     src/MainForm.h \
@@ -26,7 +27,8 @@ HEADERS += \
     src/AdminListener.h \
     src/Miners/ClaymoreEthDualMiner.h \
     src/Miners/MinergateMiner.h \
-    src/SettingsDlg.h
+    src/SettingsDlg.h \
+    src/Settings.h
 
 FORMS += \
     src/MainForm.ui \
