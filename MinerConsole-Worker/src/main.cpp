@@ -10,14 +10,12 @@ int main(int argc, char* argv[])
 	
 	QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
 	
-	Settings s(&a);
-	s.load();
-	if (!s.isLoad())
+	Settings::instance().load();
+	if (!Settings::instance().isLoad())
 	{
 		qDebug() << "Terminate program!";
 		return -1;
 	}
-	
 	
 	MainForm mf;
 	mf.show();

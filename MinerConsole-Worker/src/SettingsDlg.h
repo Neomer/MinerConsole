@@ -2,6 +2,7 @@
 #define SETTINGSDLG_H
 
 #include <QDialog>
+#include "Settings.h"
 
 namespace Ui {
 class SettingsDlg;
@@ -17,6 +18,7 @@ public:
 
 private slots:
 	void saveSettings();
+	void listIndexChanged(int index);
 	
 private:
 	Ui::SettingsDlg *ui;

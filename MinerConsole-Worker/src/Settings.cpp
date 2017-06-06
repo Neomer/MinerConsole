@@ -4,7 +4,7 @@ Settings::Settings(QObject *parent) :
 	QObject(parent),
 	_isLoad(false)
 {
-	_instance = this;
+
 }
 
 Settings::~Settings()
@@ -52,5 +52,20 @@ void Settings::load()
 	_miners = json.object()["miners"].toArray();
 	
 	_isLoad = true;
+}
+
+QJsonObject Settings::minerByType(QString type)
+{
+	if (!isLoad())
+		return QJsonObject();		
+	
+	for (int i = 0; i < Settings::instance().supportedMiners().count(); i++)
+	{
+		if (Settings::instance().supportedMiners().at(i).toObject()["type"] == type)
+		{
+			return Settings::instance().supportedMiners().at(i).toObject();
+		}
+	}
+	return QJsonObject();
 }
 
