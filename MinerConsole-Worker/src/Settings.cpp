@@ -102,7 +102,7 @@ void Settings::save()
 {
 	QJsonObject obj;
 	obj["miners"] = miners();
-	obj["supportedMiners"] = supportedMiners();
+	obj["supported_miners"] = supportedMiners();
 	QJsonDocument json(obj);
 	
 	if (!QFile::exists("MinerConsole.Worker.settings"))
@@ -111,7 +111,7 @@ void Settings::save()
 		return;
 	}
 	
-	QFile file("MinerConsole.Worker_.settings");
+	QFile file("MinerConsole.Worker.settings");
 	if (!file.open(QIODevice::WriteOnly))
 	{
 		qDebug("%s", "Settings file not found!");

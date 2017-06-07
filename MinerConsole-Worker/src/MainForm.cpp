@@ -55,7 +55,6 @@ void MainForm::openSettings()
 	SettingsDlg *dlg = new SettingsDlg(this);
 	if (dlg->exec() == QDialog::Accepted)
 	{
-		
 	}
 	delete dlg;
 }
