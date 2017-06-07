@@ -25,10 +25,15 @@ public:
         return s;
 	}
 	
+	
 	QJsonArray supportedMiners() const { return _supportedMiners; }
+	void setMinerSettings(QString name, QJsonObject &object);
 	QJsonArray miners() const { return _miners; }
 	
-	QJsonObject minerByType(QString type);
+	QJsonObject supportedMinerByType(QString type);
+	QJsonObject minerByName(QString name);
+	
+	void save();
 	
 private:
 	explicit Settings(QObject *parent = 0);

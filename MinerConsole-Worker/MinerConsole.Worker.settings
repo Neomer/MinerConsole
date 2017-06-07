@@ -10,10 +10,10 @@
 			   "password": "x",
 			   "pool": "europe.ethash-hub.miningpoolhub.com:20585",
 			   "mode": 0,
-			   "dualcoin": "sc",
-			   "dualusername": "2ddebeee0539e1d84b4d4c61f3d69c058b5fc4b1eafa6bc70de730cd3f9a179ffcb1b01b5cdc.Farm-01",
-			   "dualpassword": "x",
-			   "dualspeed": 22
+			   "dual-coin": "sc",
+			   "dual-username": "2ddebeee0539e1d84b4d4c61f3d69c058b5fc4b1eafa6bc70de730cd3f9a179ffcb1b01b5cdc.Farm-01",
+			   "dual-password": "x",
+			   "dual-speed": 22
 			}
 		}
 	],
@@ -27,28 +27,32 @@
 					"desciption": "Pool address",
 					"arg": "epool",
 					"default": "",
-					"type": "string"
+					"type": "string",
+					"help": "Host address of the pool. For example, somecoin.mypool.org:15640"
 				},
 				{
 					"name": "username",
 					"desciption": "Username/Wallet",
 					"arg": "ewal",
 					"default": "",
-					"type": "string"
+					"type": "string",
+					"help": "Some pools use username, e-mail or wallet address for authentification. You should find your own way on the pool's site. Good luck!"
 				},
 				{
 					"name": "password",
 					"desciption": "Password",
 					"arg": "epsw",
 					"default": "x",
-					"type": "string"
+					"type": "string",
+					"help": "Password used for authentification. If pool don't uses password or annonymous mining is supported, so you can left this field empty or type 'x'."
 				},
 				{
 					"name": "worker",
 					"desciption": "Worker name",
 					"arg": "eworker",
 					"default": "",
-					"type": "string"
+					"type": "string",
+					"help": "If you want, you can setup your worker's name. Some of pools requires setting worker's name in your username field. Check it on the pool's site."
 				},
 				{
 					"name": "stratum-mode",
@@ -72,7 +76,8 @@
 							"display": "Nicehash mode"
 						}
 					],
-					"type": "enum"
+					"type": "enum",
+					"help": ""
 				},
 				{
 					"name": "algorithm-mode",
@@ -96,35 +101,137 @@
 							"display": "Auto-detect"
 						}
 					],
-					"type": "enum"
+					"type": "enum",
+					"help": ""
 				},
 				{
 					"name": "assembler-mode",
 					"desciption": "GPU kernel mode (AMD cards only!)",
 					"arg": "asm",
 					"default": "",
-					"type": "bool"
+					"type": "bool",
+					"help": ""
 				},
 				{
 					"name": "intensity",
 					"desciption": "Mining intensity",
 					"arg": "ethi",
 					"default": 8,
-					"type": "int"
+					"type": "int",
+					"help": ""
 				},
 				{
 					"name": "max-temp",
 					"desciption": "Temperature limit",
 					"arg": "tstop",
 					"default": 85,
-					"type": "int"
+					"type": "int",
+					"help": ""
 				},
 				{
 					"name": "low-intensity-temp",
 					"desciption": "Low intensity temperature",
 					"arg": "ttli",
 					"default": 80,
-					"type": "int"
+					"type": "int",
+					"help": ""
+				},
+				{
+					"name": "gpu-reserve",
+					"desciption": "Reserve GPU memory for several future DAG epochs",
+					"arg": "eres",
+					"default": 2,
+					"type": "int",
+					"help": ""
+				},
+				{
+					"name": "allpools",
+					"desciption": "Using pre-defined pools for dev-fee",
+					"arg": "allpools",
+					"default": 1,
+					"type": "bool",
+					"help": ""
+				},
+				{
+					"name": "allcoins",
+					"desciption": "Mine eth-fork coins",
+					"arg": "allcoins",
+					"default": 1,
+					"type": "bool",
+					"help": ""
+				},
+				{
+					"name": "send-stale",
+					"desciption": "Send stale shares",
+					"arg": "estale",
+					"default": 1,
+					"type": "bool",
+					"help": ""
+				},
+				{
+				    "name": "dual-pool",
+					"desciption": "Dual-coin pool address",
+					"arg": "dpool",
+					"default": "",
+					"type": "string",
+					"help": "Host address of the dual-coin pool. For example, someothercoin.mypool.org:15640"
+				},
+				{
+					"name": "dual-username",
+					"desciption": "Dual-coin username/wallet",
+					"arg": "dwal",
+					"default": "",
+					"type": "string",
+					"help": "Some pools use username, e-mail or wallet address for authentification. You should find your own way on the pool's site. Good luck!"
+				},
+				{
+					"name": "dual-password",
+					"desciption": "Dual-coin password",
+					"arg": "dpsw",
+					"default": "x",
+					"type": "string",
+					"help": "Password used for authentification. If pool don't uses password or annonymous mining is supported, so you can left this field empty or type 'x'."
+				},
+				{
+					"name": "dual-gpu",
+					"desciption": "Dual-coin GPU indexes",
+					"arg": "di",
+					"default": "",
+					"type": "string",
+					"help": "0-based indexes of GPU uses for dual-coin mining. For example '02' means that you will mine dual-coin on first and third GPUs."
+				},
+				{
+					"name": "mode",
+					"desciption": "Dual-mining mode",
+					"arg": "mode",
+					"default": 1,
+					"type": "bool",
+					"help": "Setup dual-coin or ethereum-only mode"
+				},
+				{
+					"name": "dual-coin",
+					"desciption": "Dual-mining coin",
+					"arg": "dcoin",
+					"default": [
+						{
+							"value": "dcr",
+							"display": "Decred"
+						},
+						{
+							"value": "sc",
+							"display": "Siacoin"
+						},
+						{
+							"value": "lbc",
+							"display": "LBRY"
+						},
+						{
+							"value": "pasc",
+							"display": "Pascal"
+						}
+					],
+					"type": "enum",
+					"help": "Choose your dual-coin."
 				}
 			]
 		}

@@ -1,4 +1,4 @@
-#include "Settings.h"
+﻿#include "Settings.h"
 
 Settings::Settings(QObject *parent) : 
 	QObject(parent),
@@ -27,6 +27,7 @@ void Settings::load()
 		return;
 	}
 	QString sFile = file.readAll();
+	file.close();
 	QJsonParseError error;
 	QJsonDocument json = QJsonDocument::fromJson(sFile.toUtf8(), &error);
 	
@@ -54,7 +55,20 @@ void Settings::load()
 	_isLoad = true;
 }
 
-QJsonObject Settings::minerByType(QString type)
+void Settings::setMinerSettings(QString name, QJsonObject &object)
+{
+	for (int i = 0; i < miners().count(); i++)
+	{
+		if (miners().at(i).toObject()["name"] == name)
+		{
+			QJsonObject miner = _miners.takeAt(i).toObject();
+			miner["settings"] = object;
+			_miners << miner;
+		}
+	}
+}
+
+QJsonObject Settings::supportedMinerByType(QString type)
 {
 	if (!isLoad())
 		return QJsonObject();		
@@ -67,5 +81,44 @@ QJsonObject Settings::minerByType(QString type)
 		}
 	}
 	return QJsonObject();
+}
+
+QJsonObject Settings::minerByName(QString name)
+{
+	if (!isLoad())
+		return QJsonObject();		
+	
+	for (int i = 0; i < Settings::instance().miners().count(); i++)
+	{
+		if (Settings::instance().miners().at(i).toObject()["name"] == name)
+		{
+			return Settings::instance().miners().at(i).toObject();
+		}
+	}
+	return QJsonObject();
+}
+
+void Settings::save()
+{
+	QJsonObject obj;
+	obj["miners"] = miners();
+	obj["supportedMiners"] = supportedMiners();
+	QJsonDocument json(obj);
+	
+	if (!QFile::exists("MinerConsole.Worker.settings"))
+	{
+		qDebug("%s", "Settings file not found!");
+		return;
+	}
+	
+	QFile file("MinerConsole.Worker_.settings");
+	if (!file.open(QIODevice::WriteOnly))
+	{
+		qDebug("%s", "Settings file not found!");
+		return;
+	}
+
+	file.write(json.toJson());
+	file.close();
 }
 
