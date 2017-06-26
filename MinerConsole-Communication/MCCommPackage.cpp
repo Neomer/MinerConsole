@@ -2,12 +2,13 @@
 #include <QMetaObject>
 #include <QMetaProperty>
 
-MCCommPackage::MCCommPackage(QObject *parent) : QObject(parent)
+MCCommPackage::MCCommPackage(QObject *parent) :
+    IControllerPoint(parent)
 {
 
 }
 
-TVersion MCCommPackage::Version() const
+TVersion MCCommPackage::Version()
 {
     return m_Version;
 }
@@ -19,6 +20,8 @@ void MCCommPackage::setVersion(TVersion Version)
 
 void MCCommPackage::parse(QByteArray json_array)
 {
+    LOG_TRACE;
+
     QJsonParseError err;
     QJsonDocument json = QJsonDocument::fromJson(json_array, &err);
     const QMetaObject *mo = this->metaObject();
@@ -30,4 +33,9 @@ void MCCommPackage::parse(QByteArray json_array)
             continue;
         }
     }
+}
+
+bool MCCommPackage::dispatch(QString action, QVariant data)
+{
+    LOG_TRACE << action << data;
 }

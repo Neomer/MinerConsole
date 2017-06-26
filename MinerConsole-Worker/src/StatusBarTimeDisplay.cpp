@@ -5,7 +5,9 @@ StatusBarTimeDisplay::StatusBarTimeDisplay(QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::StatusBarTimeDisplay)
 {
-	ui->setupUi(this);
+    LOG_TRACE;
+
+    ui->setupUi(this);
 
 	ui->lblTime->setText(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
 	
@@ -18,11 +20,15 @@ StatusBarTimeDisplay::StatusBarTimeDisplay(QWidget *parent) :
 
 StatusBarTimeDisplay::~StatusBarTimeDisplay()
 {
-	delete _tmr;
+    LOG_TRACE;
+
+    delete _tmr;
 	delete ui;
 }
 
 void StatusBarTimeDisplay::updateTime()
 {
-	ui->lblTime->setText(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+    LOG_TRACE;
+
+    ui->lblTime->setText(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
 }

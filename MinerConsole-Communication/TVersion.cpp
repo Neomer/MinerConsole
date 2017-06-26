@@ -23,6 +23,12 @@ TVersion::TVersion(QString value)
 
 }
 
+TVersion::TVersion(const TVersion &other)
+{
+    setMajor(other.Major());
+    setMinor(other.Minor());
+}
+
 int TVersion::Major() const
 {
     return m_Major;

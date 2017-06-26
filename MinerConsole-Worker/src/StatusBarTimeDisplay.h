@@ -5,6 +5,8 @@
 #include <QTimer>
 #include <QDateTime>
 
+#include "Logs/Logs.h"
+
 namespace Ui {
 	class StatusBarTimeDisplay;
 }

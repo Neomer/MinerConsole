@@ -2,7 +2,9 @@
 
 Miner::Miner(QObject *parent) : QObject(parent)
 {
-	_proc = new QProcess(this);
+    LOG_TRACE;
+
+    _proc = new QProcess(this);
 	
 	connect(_proc, SIGNAL(stateChanged(QProcess::ProcessState)), 
 			this, SIGNAL(stateChanged(QProcess::ProcessState)));
@@ -14,7 +16,9 @@ Miner::Miner(QObject *parent) : QObject(parent)
 
 Miner::~Miner()
 {
-	stop();
+    LOG_TRACE;
+
+    stop();
 	delete _proc;
 }
 
@@ -25,48 +29,74 @@ bool Miner::isRunning()
 
 bool Miner::start()
 {
-	_needStop = false;
+    LOG_TRACE;
+
+    if (!QFile::exists(getPath()))
+    {
+        LOG_WARN << tr("File not found!") << getPath();
+        return false;
+    }
+
+    _needStop = false;
 	_proc->start(getPath(), getArguments().split(' ', QString::SkipEmptyParts), QIODevice::ReadOnly);
 	if (!_proc->waitForStarted(5000))
-		return false;
+    {
+        LOG_WARN << "Process starting failed!";
+        return false;
+    }
 
 	return true;
 }
 
 bool Miner::stop()
 {
-	_needStop = true;
+    LOG_TRACE;
+
+    _needStop = true;
 	if (isRunning())
 	{
 		_proc->terminate();
 		if (!_proc->waitForFinished(5000))
-			return false;
-	}
+        {
+            LOG_WARN << "Process terminating failed!";
+            return false;
+        }
+    }
+    else
+    {
+        LOG_DEBUG << tr("Process already stopped!");
+    }
 	return true;
 }
 
 void Miner::readStdOut()
 {
-	QString out(_proc->readAllStandardOutput());
+    LOG_TRACE;
+
+    QString out(_proc->readAllStandardOutput());
 	emit consoleWrite(out);
 }
 
 void Miner::readStdError()
 {
-	QString out(_proc->readAllStandardError());
+    LOG_TRACE;
+
+    QString out(_proc->readAllStandardError());
 	emit consoleWrite(out);
 }
 
 void Miner::procTerminated()
 {
-	if (!_needStop)
+    LOG_TRACE;
+
+    if (!_needStop)
 	{
-		qDebug("%s", tr("Proccess unexpectedly terminated! Restart...").toUtf8().constData());
+        LOG_WARN << tr("Proccess unexpectedly terminated! Restart...");
 		start();
 	}
 	else
 	{
-		qDebug("%s", tr("Proccess successfully terminated!").toUtf8().constData());
+        LOG_DEBUG << tr("Proccess unexpectedly terminated!");
 	}
 }
 

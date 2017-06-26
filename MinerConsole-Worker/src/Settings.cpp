@@ -14,6 +14,8 @@ Settings::~Settings()
 
 void Settings::load()
 {
+    LOG_TRACE;
+
 	if (!QFile::exists("MinerConsole.Worker.settings"))
 	{
 		qDebug("%s", "Settings file not found!");
@@ -57,20 +59,23 @@ void Settings::load()
 
 void Settings::setMinerSettings(QString name, QJsonObject &object)
 {
-	for (int i = 0; i < miners().count(); i++)
+    LOG_TRACE << name;
+
+    for (int i = 0; i < miners().count(); i++)
 	{
 		if (miners().at(i).toObject()["name"] == name)
 		{
-			QJsonObject miner = _miners.takeAt(i).toObject();
-			miner["settings"] = object;
-			_miners << miner;
+            _miners.takeAt(i).toObject();
+            _miners << object;
 		}
 	}
 }
 
 QJsonObject Settings::supportedMinerByType(QString type)
 {
-	if (!isLoad())
+    LOG_TRACE << type;
+
+    if (!isLoad())
 		return QJsonObject();		
 	
 	for (int i = 0; i < Settings::instance().supportedMiners().count(); i++)
@@ -85,7 +90,9 @@ QJsonObject Settings::supportedMinerByType(QString type)
 
 QJsonObject Settings::minerByName(QString name)
 {
-	if (!isLoad())
+    LOG_TRACE << name;
+
+    if (!isLoad())
 		return QJsonObject();		
 	
 	for (int i = 0; i < Settings::instance().miners().count(); i++)
@@ -100,7 +107,9 @@ QJsonObject Settings::minerByName(QString name)
 
 void Settings::save()
 {
-	QJsonObject obj;
+    LOG_TRACE;
+
+    QJsonObject obj;
 	obj["miners"] = miners();
 	obj["supported_miners"] = supportedMiners();
 	QJsonDocument json(obj);

@@ -8,7 +8,9 @@ MainForm::MainForm(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainForm)
 {
-	ui->setupUi(this);
+    LOG_TRACE;
+
+    ui->setupUi(this);
 
 	_miner = new MinergateMiner(this);
 	connect(_miner, SIGNAL(consoleWrite(QString)), this, SLOT(writeToConsole(QString)));
@@ -38,12 +40,16 @@ MainForm::MainForm(QWidget *parent) :
 
 MainForm::~MainForm()
 {
-	delete ui;
+    LOG_TRACE;
+
+    delete ui;
 }
 
 void MainForm::writeToConsole(QString text)
 {
-	if (ui->txtConsole->toPlainText().length() > 1000000)
+    LOG_TRACE;
+
+    if (ui->txtConsole->toPlainText().length() > 1000000)
 	{
 		ui->txtConsole->clear();
 	}
@@ -52,7 +58,9 @@ void MainForm::writeToConsole(QString text)
 
 void MainForm::openSettings()
 {
-	SettingsDlg *dlg = new SettingsDlg(this);
+    LOG_TRACE;
+
+    SettingsDlg *dlg = new SettingsDlg(this);
 	if (dlg->exec() == QDialog::Accepted)
 	{
 	}
@@ -63,6 +71,8 @@ void MainForm::openSettings()
 // based on information: http://en.m.wikipedia.org/wiki/ANSI_escape_code http://misc.flogisoft.com/bash/tip_colors_and_formatting http://invisible-island.net/xterm/ctlseqs/ctlseqs.html
 void MainForm::parseEscapeSequence(int attribute, QListIterator< QString > & i, QTextCharFormat & textCharFormat, QTextCharFormat const & defaultTextCharFormat)
 {
+    LOG_TRACE;
+
     switch (attribute) {
     case 0 : { // Normal/Default (reset all attributes)
         textCharFormat = defaultTextCharFormat;
@@ -532,6 +542,8 @@ void MainForm::parseEscapeSequence(int attribute, QListIterator< QString > & i, 
 
 void MainForm::setTextTermFormatting(QPlainTextEdit * textEdit, QString const & text)
 {
+    LOG_TRACE;
+
     QTextDocument * document = textEdit->document();
     QRegExp const escapeSequenceExpression(R"(\x1B\[([\d;]+)m)");
     QTextCursor cursor(document);

@@ -8,7 +8,9 @@ SettingsDlg::SettingsDlg(QWidget *parent) :
 	QDialog(parent),
 	ui(new Ui::SettingsDlg)
 {
-	ui->setupUi(this);
+    LOG_TRACE;
+
+    ui->setupUi(this);
 	
 	connect(ui->pbCancel, SIGNAL(clicked(bool)), this, SLOT(reject()));
 	connect(ui->pbSave, SIGNAL(clicked(bool)), this, SLOT(saveSettings()));
@@ -30,13 +32,15 @@ SettingsDlg::SettingsDlg(QWidget *parent) :
 
 SettingsDlg::~SettingsDlg()
 {
-	delete ui;
+    LOG_TRACE;
+
+    delete ui;
 }
 
 void SettingsDlg::saveSettings()
 {
-	qDebug() << "SettingsDlg::saveSettings()";
-	
+    LOG_TRACE;
+
 	QJsonObject miner = Settings::instance().minerByName(ui->listWidget->currentItem()->data(Qt::UserRole).toString());
 	QJsonObject settings = miner["settings"].toObject();
 	QJsonArray sm = Settings::instance().supportedMinerByType(miner["type"].toString())["args"].toArray();
@@ -89,11 +93,16 @@ void SettingsDlg::saveSettings()
 		{
 			settings[name] = ui->tableWidget->item(i, 1)->text();
 		}
-		qDebug() << name 
-				 << type
-				 << settings[name];
+        LOG_DEBUG << name
+                  << type
+                  << settings[name];
 	}
-	Settings::instance().setMinerSettings(miner["name"].toString(), settings);
+
+    miner["path"] = ui->pathLineEdit->text();
+    miner["name"] = ui->nameLineEdit->text();
+    miner["settings"] = settings;
+
+    Settings::instance().setMinerSettings(miner["name"].toString(), miner);
 	Settings::instance().save();
 	
 	this->accept();
@@ -101,10 +110,11 @@ void SettingsDlg::saveSettings()
 
 void SettingsDlg::listIndexChanged(int index)
 {
-	qDebug() << "SettingsDlg::listIndexChanged(int)";
+    LOG_TRACE;
 
 	QJsonObject miner = Settings::instance().minerByName(ui->listWidget->currentItem()->data(Qt::UserRole).toString());
-	QJsonObject obj = Settings::instance().supportedMinerByType(Settings::instance().miners().at(index).toObject()["type"].toString());
+    ui->pathLineEdit->setText(miner["path"].toString());
+    QJsonObject obj = Settings::instance().supportedMinerByType(Settings::instance().miners().at(index).toObject()["type"].toString());
 	QJsonArray args = obj["args"].toArray();
 	ui->tableWidget->setRowCount(args.count());
 	for (int i = 0; i < args.count(); i++)
@@ -117,9 +127,9 @@ void SettingsDlg::listIndexChanged(int index)
 		ui->tableWidget->setItem(i, 0, twi);
 		
 		QJsonValueRef valRef = miner["settings"].toObject()[args.at(i).toObject()["name"].toString()];
-		qDebug() << args.at(i).toObject()["name"].toString()
-				<< miner["settings"].toObject()[args.at(i).toObject()["name"].toString()]
-				<< type;		
+        LOG_DEBUG << args.at(i).toObject()["name"].toString()
+                  << miner["settings"].toObject()[args.at(i).toObject()["name"].toString()]
+                  << type;
 		QString value;
 		twi = new QTableWidgetItem();
 		

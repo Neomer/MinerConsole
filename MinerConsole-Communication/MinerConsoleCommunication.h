@@ -3,7 +3,7 @@
 
 #include "minerconsole-communication_global.h"
 
-class MINERCONSOLECOMMUNICATIONSHARED_EXPORT MinerConsoleCommunication
+class MINERCONSOLE_EXPORT MinerConsoleCommunication
 {
 
 public:

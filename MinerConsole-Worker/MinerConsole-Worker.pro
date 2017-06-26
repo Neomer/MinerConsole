@@ -28,7 +28,8 @@ HEADERS += \
     src/Miners/ClaymoreEthDualMiner.h \
     src/Miners/MinergateMiner.h \
     src/SettingsDlg.h \
-    src/Settings.h
+    src/Settings.h \
+    src/Logs/Logs.h
 
 FORMS += \
     src/MainForm.ui \

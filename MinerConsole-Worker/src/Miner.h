@@ -7,7 +7,9 @@
 #include <QVariant>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QFile>
 
+#include "Logs/Logs.h"
 
 class Miner : public QObject
 {

@@ -14,8 +14,9 @@ class TVersion : public QObject
     int m_Minor;
 
 public:
-    TVersion();
-    TVersion(QString value);
+    explicit TVersion();
+    explicit TVersion(QString value);
+    TVersion(const TVersion &other);
 
     int Major() const;
     int Minor() const;

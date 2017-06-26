@@ -27,19 +27,24 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         MinerConsoleCommunication.cpp \
     MCCommPackage.cpp \
-    TVersion.cpp
+    TVersion.cpp \
+    IController.cpp
 
 HEADERS += \
         MinerConsoleCommunication.h \
         minerconsole-communication_global.h \ 
     MCCommPackage.h \
     TVersion.h \
-    Err.h
+    Err.h \
+    IController.h \
+    IControllerPoint.h
 
 unix {
     target.path = /usr/lib
     INSTALLS += target
 }
+
+INCLUDEPATH += "C:\\Users\\user\\Downloads\\boost_1_64_0"
 
 OBJECTS_DIR = ../tmp/$$TARGET
 UI_DIR = ../tmp/$$TARGET

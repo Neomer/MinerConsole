@@ -6,7 +6,9 @@ StatusBarMinerState::StatusBarMinerState(QWidget *parent) :
 	_miner(0),
 	ui(new Ui::StatusBarMinerState)
 {
-	ui->setupUi(this);
+    LOG_TRACE;
+
+    ui->setupUi(this);
 	
 	_tmr = new QTimer(this);
 	connect(_tmr, SIGNAL(timeout()), this, SLOT(updateState()));
@@ -22,14 +24,18 @@ StatusBarMinerState::~StatusBarMinerState()
 
 void StatusBarMinerState::setMiner(Miner *miner)
 {
-	_miner = miner;
+    LOG_TRACE;
+
+    _miner = miner;
 	connect(_miner, SIGNAL(stateChanged(QProcess::ProcessState)), 
 			this, SLOT(stateChanged(QProcess::ProcessState)));
 }
 
 void StatusBarMinerState::updateState()
 {
-	if (_miner)
+    LOG_TRACE;
+
+    if (_miner)
 	{
 		if (_miner->isRunning())
 		{
@@ -51,7 +57,9 @@ void StatusBarMinerState::updateState()
 
 void StatusBarMinerState::stateChanged(QProcess::ProcessState state)
 {
-	switch (state)
+    LOG_TRACE;
+
+    switch (state)
 	{
 		case QProcess::NotRunning:
 			ui->lblState->setText(tr("Not running"));

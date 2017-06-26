@@ -10,6 +10,8 @@
 #include <QFile>
 #include <QDebug>
 
+#include "Logs/Logs.h"
+
 class Settings : public QObject
 {
 	Q_OBJECT
