@@ -20,12 +20,17 @@
       <number>6</number>
      </property>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,3">
+      <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,3">
        <item>
-        <widget class="QListWidget" name="listWidget">
+        <widget class="QTreeWidget" name="treeWidget">
          <property name="selectionMode">
           <enum>QAbstractItemView::NoSelection</enum>
          </property>
+         <column>
+          <property name="text">
+           <string notr="true">1</string>
+          </property>
+         </column>
         </widget>
        </item>
        <item>

@@ -1,7 +1,6 @@
 #include "SettingsDlg.h"
 #include "ui_SettingsDlg.h"
 #include <QTableWidgetItem>
-#include <QListWidgetItem>
 #include <QComboBox>
 
 SettingsDlg::SettingsDlg(QWidget *parent) :
@@ -14,20 +13,50 @@ SettingsDlg::SettingsDlg(QWidget *parent) :
 	
 	connect(ui->pbCancel, SIGNAL(clicked(bool)), this, SLOT(reject()));
 	connect(ui->pbSave, SIGNAL(clicked(bool)), this, SLOT(saveSettings()));
-	connect(ui->listWidget, SIGNAL(currentRowChanged(int)), this, SLOT(listIndexChanged(int))); 
-	
+    connect(ui->treeWidget, SIGNAL(itemChanged(QTreeWidgetItem*,int)), this, SLOT(listIndexChanged(QTreeWidgetItem*,int)));
+
+
+    QList<QTreeWidgetItem *> topItems;
+
+    _coins = new QTreeWidgetItem();
+    _coins->setText(0, tr("Coins"));
+    _coins->setIcon(0, QIcon(qApp->applicationDirPath().append("/res/i/coin.png")));
+
+    _miners = new QTreeWidgetItem();
+    _miners->setText(0, tr("Miners"));
+    _miners->setIcon(0, QIcon(qApp->applicationDirPath().append("/res/i/miner.png")));
+
+
 	for (int i = 0; i < Settings::instance().miners().count(); i++)
 	{
 		QJsonObject miner = Settings::instance().miners().at(i).toObject();
 		
-		QListWidgetItem *lwi = new QListWidgetItem(QString("%1 [%2]").arg(
-													  miner["name"].toString(),
-													  miner["type"].toString()
-												  ));
-		lwi->setData(Qt::UserRole, miner["name"].toString());
-		ui->listWidget->addItem(lwi);
+        QTreeWidgetItem *lwi = new QTreeWidgetItem();
+        lwi->setText(0, QString("%1 [%2]").arg(
+                         miner["name"].toString(),
+                         miner["type"].toString()
+                     ));
+        lwi->setData(0, Qt::UserRole, miner["name"].toString());
+        _miners->addChild(lwi);
 	}
 	
+    for (int i = 0; i < Settings::instance().coinList().count(); i++)
+    {
+        Coin * coin = Settings::instance().coinList().at(i);
+
+        QTreeWidgetItem *lwi = new QTreeWidgetItem();
+        lwi->setText(0, QString("[%1] %2").arg(
+                         coin->getShortName(),
+                         coin->getName()));
+        lwi->setIcon(0, coin->getIcon());
+
+        _coins->addChild(lwi);
+    }
+
+
+    topItems.append(_coins);
+    topItems.append(_miners);
+    ui->treeWidget->addTopLevelItems(topItems);
 }
 
 SettingsDlg::~SettingsDlg()
@@ -41,7 +70,7 @@ void SettingsDlg::saveSettings()
 {
     LOG_TRACE;
 
-	QJsonObject miner = Settings::instance().minerByName(ui->listWidget->currentItem()->data(Qt::UserRole).toString());
+    QJsonObject miner = Settings::instance().minerByName(ui->treeWidget->currentItem()->data(0, Qt::UserRole).toString());
 	QJsonObject settings = miner["settings"].toObject();
 	QJsonArray sm = Settings::instance().supportedMinerByType(miner["type"].toString())["args"].toArray();
 	for (int i = 0; i < ui->tableWidget->rowCount(); i++)
@@ -108,13 +137,15 @@ void SettingsDlg::saveSettings()
 	this->accept();
 }
 
-void SettingsDlg::listIndexChanged(int index)
+void SettingsDlg::listIndexChanged(QTreeWidgetItem *item, int column)
 {
+    Q_UNUSED(column);
+
     LOG_TRACE;
 
-	QJsonObject miner = Settings::instance().minerByName(ui->listWidget->currentItem()->data(Qt::UserRole).toString());
+    QJsonObject miner = Settings::instance().minerByName(ui->treeWidget->currentItem()->data(0, Qt::UserRole).toString());
     ui->pathLineEdit->setText(miner["path"].toString());
-    QJsonObject obj = Settings::instance().supportedMinerByType(Settings::instance().miners().at(index).toObject()["type"].toString());
+    QJsonObject obj = Settings::instance().supportedMinerByType(Settings::instance().miners().at(_miners->indexOfChild(item)).toObject()["type"].toString());
 	QJsonArray args = obj["args"].toArray();
 	ui->tableWidget->setRowCount(args.count());
 	for (int i = 0; i < args.count(); i++)

@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "Settings.h"
+#include <QTreeWidgetItem>
 
 namespace Ui {
 class SettingsDlg;
@@ -18,10 +19,11 @@ public:
 
 private slots:
 	void saveSettings();
-	void listIndexChanged(int index);
+    void listIndexChanged(QTreeWidgetItem *item, int column);
 	
 private:
 	Ui::SettingsDlg *ui;
+    QTreeWidgetItem *_coins, *_miners;
 };
 
 #endif // SETTINGSDLG_H

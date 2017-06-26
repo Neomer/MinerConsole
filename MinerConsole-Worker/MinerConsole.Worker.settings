@@ -1,4 +1,26 @@
 {
+	"coins" : [
+		{
+			"shortname": "ETH",
+			"name": "Ethereum",
+			"icon": "/res/i/eth.png"
+		},
+		{
+			"shortname": "SC",
+			"name": "Siacoin",
+			"icon": "/res/i/sc.png"
+		},
+		{
+			"shortname": "MUSIC",
+			"name": "Musicoin",
+			"icon": "/res/i/music.png"
+		},
+		{
+			"shortname": "ETC",
+			"name": "Ethereum Classic",
+			"icon": "/res/i/etс.png"
+		}
+	],
     "miners": [
         {
             "name": "Claymore",

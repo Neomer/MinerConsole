@@ -16,7 +16,8 @@ SOURCES += \
     src/Miners/ClaymoreEthDualMiner.cpp \
     src/Miners/MinergateMiner.cpp \
     src/SettingsDlg.cpp \
-    src/Settings.cpp
+    src/Settings.cpp \
+    src/Coin.cpp
 
 HEADERS += \
     src/MainForm.h \
@@ -29,7 +30,8 @@ HEADERS += \
     src/Miners/MinergateMiner.h \
     src/SettingsDlg.h \
     src/Settings.h \
-    src/Logs/Logs.h
+    src/Logs/Logs.h \
+    src/Coin.h
 
 FORMS += \
     src/MainForm.ui \

@@ -9,8 +9,10 @@
 #include <QDir>
 #include <QFile>
 #include <QDebug>
+#include <QList>
 
 #include "Logs/Logs.h"
+#include "Coin.h"
 
 class Settings : public QObject
 {
@@ -30,10 +32,13 @@ public:
 	
 	QJsonArray supportedMiners() const { return _supportedMiners; }
 	void setMinerSettings(QString name, QJsonObject &object);
+
 	QJsonArray miners() const { return _miners; }
 	
 	QJsonObject supportedMinerByType(QString type);
 	QJsonObject minerByName(QString name);
+
+    QList<Coin *> coinList();
 	
 	void save();
 	
@@ -47,6 +52,7 @@ private:
 	bool _isLoad;
 	QJsonArray _supportedMiners;
 	QJsonArray _miners;
+    QList<Coin *> _coins;
 };
 
 

@@ -54,6 +54,12 @@ void Settings::load()
 	_supportedMiners = json.object()["supported_miners"].toArray();
 	_miners = json.object()["miners"].toArray();
 	
+    QJsonArray coins = json.object()["coins"].toArray();
+    for (int i = 0; i < coins.count(); i++)
+    {
+        _coins.append(new Coin(coins.at(i).toObject(), this));
+    }
+
 	_isLoad = true;
 }
 
@@ -102,7 +108,12 @@ QJsonObject Settings::minerByName(QString name)
 			return Settings::instance().miners().at(i).toObject();
 		}
 	}
-	return QJsonObject();
+    return QJsonObject();
+}
+
+QList<Coin *> Settings::coinList()
+{
+    return _coins;
 }
 
 void Settings::save()
