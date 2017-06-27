@@ -13,7 +13,8 @@ SOURCES += main.cpp \
     src/interfaces/IMiner.cpp \
     src/interfaces/IJob.cpp \
     src/interfaces/IJobDispatcher.cpp \
-    src/logs/Logger.cpp
+    src/logs/Logger.cpp \
+    src/StratumParser.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -30,6 +31,12 @@ HEADERS += \
     src/interfaces/IMiner.h \
     src/interfaces/IJob.h \
     src/interfaces/IJobDispatcher.h \
-    src/logs/Logger.h
+    src/logs/Logger.h \
+    src/StratumParser.h \
+    src/interfaces/ISingleton.h
 
 INCLUDEPATH += $$PWD
+
+OBJECTS_DIR = ../tmp/$$TARGET
+UI_DIR = ../tmp/$$TARGET
+MOC_DIR = ../tmp/$$TARGET
