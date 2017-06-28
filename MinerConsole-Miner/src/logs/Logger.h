@@ -8,12 +8,12 @@
 #define LOG_DEBUG       qDebug() \
                             << "DEBUG" \
                             << QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz") \
-                            << Q_FUNC_INFO;
+                            << Q_FUNC_INFO
 
 #define LOG_TRACE       qDebug() \
                             << "TRACE" \
                             << QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz") \
-                            << Q_FUNC_INFO;
+                            << Q_FUNC_INFO
 
 
 class Logger : public QObject

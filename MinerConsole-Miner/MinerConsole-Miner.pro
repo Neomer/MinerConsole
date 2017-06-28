@@ -3,6 +3,7 @@ QT -= gui
 
 CONFIG += c++11
 
+
 TARGET = MinerConsole-Miner
 CONFIG += console
 CONFIG -= app_bundle
@@ -14,7 +15,8 @@ SOURCES += main.cpp \
     src/interfaces/IJob.cpp \
     src/interfaces/IJobDispatcher.cpp \
     src/logs/Logger.cpp \
-    src/StratumParser.cpp
+    src/StratumParser.cpp \
+    src/algo/Blake2b.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -33,10 +35,17 @@ HEADERS += \
     src/interfaces/IJobDispatcher.h \
     src/logs/Logger.h \
     src/StratumParser.h \
-    src/interfaces/ISingleton.h
+    src/interfaces/ISingleton.h \
+    src/algo/Blake2b.h
 
 INCLUDEPATH += $$PWD
+
+QMAKE_CXXFLAGS += -DNDEBUG -g2 -O3
+INCLUDEPATH += C:/cryptopp565
+LIBS += -LC:/cryptopp565/release -lcryptopp
+
 
 OBJECTS_DIR = ../tmp/$$TARGET
 UI_DIR = ../tmp/$$TARGET
 MOC_DIR = ../tmp/$$TARGET
+
