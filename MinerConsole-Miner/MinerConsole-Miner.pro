@@ -40,10 +40,27 @@ HEADERS += \
 
 INCLUDEPATH += $$PWD
 
+# CRYPTOPP Library
 QMAKE_CXXFLAGS += -DNDEBUG -g2 -O3
 INCLUDEPATH += C:/cryptopp565
 LIBS += -LC:/cryptopp565/release -lcryptopp
 
+#CUDA SDK
+CUDA_OBJECTS_DIR = release/cuda
+
+CUDA_SDK = "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v8.0"   # Path to cuda SDK install
+SYSTEM_NAME = Win32         # Depending on your system either 'Win32', 'x64', or 'Win64'
+SYSTEM_TYPE = 32            # '32' or '64', depending on your system
+CUDA_ARCH = sm_11           # Type of CUDA architecture, for example 'compute_10', 'compute_11', 'sm_10'
+NVCC_OPTIONS = --use_fast_math
+
+QMAKE_LIBDIR += $$CUDA_SDK/lib/$$SYSTEM_NAME
+LIBS += -L$$CUDA_SDK/lib/$$SYSTEM_NAME
+INCLUDEPATH += $$CUDA_SDK/include
+LIBS += -lcuda -lcudart
+# The following library conflicts with something in Cuda
+MSVCRT_LINK_FLAG_DEBUG = "/MDd"
+MSVCRT_LINK_FLAG_RELEASE = "/MD"
 
 OBJECTS_DIR = ../tmp/$$TARGET
 UI_DIR = ../tmp/$$TARGET

@@ -15,6 +15,10 @@
                             << QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz") \
                             << Q_FUNC_INFO
 
+#define LOG_INFO       qDebug() \
+                            << "INFO " \
+                            << QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz") \
+
 
 class Logger : public QObject
 {

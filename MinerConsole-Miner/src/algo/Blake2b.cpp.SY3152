@@ -1,0 +1,60 @@
+#include "Blake2b.h"
+
+#define HASH_SIZE       64
+
+bool add_recursive(byte *data, int start = 0)
+{
+    LOG_TRACE << start << data[start];
+    if (data[start] == '9')
+    {
+        data[start] = '0';
+        start++;
+        LOG_TRACE << start;
+        add_recursive(data, start);
+    }
+    else
+    {
+        data[start]++;
+    }
+    return data[start] == 1;
+}
+
+
+Blake2b::Blake2b(QObject *parent) :
+    IMiner(parent)
+{
+    _crypto = new CryptoPP::BLAKE2b();
+}
+
+void Blake2b::run()
+{
+    byte dig[HASH_SIZE];
+    memset(dig, 0, HASH_SIZE);
+
+    quint64 ff = 0;
+    byte buf[100];
+    int len = 0;
+    memset(buf, '0', 100);
+
+    for (ff = 0; ff < 150000000000; ff++)
+    {
+        if (add_recursive(buf))
+        {
+            len++;
+        }
+        _crypto->CalculateDigest(dig, buf, len);
+        appendHashCount();
+        if (dig[0] + dig[1] + dig[2] == 0)
+        {
+            break;
+        }
+    }
+
+    char s[HASH_SIZE * 2];
+    for (int i = 0; i < HASH_SIZE; i++)
+    {
+        sprintf(s + i * 2, "%.2X", dig[i]);
+    }
+    LOG_INFO << "Share found!" << s;
+    emit hashReady();
+}

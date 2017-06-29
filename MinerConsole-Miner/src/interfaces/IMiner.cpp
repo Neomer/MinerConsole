@@ -12,6 +12,7 @@ IMiner::IMiner(QObject *parent) : QThread(parent)
     m_tmrHashrate->setInterval(5000);
 
     connect(m_tmrHashrate, SIGNAL(timeout()), this, SLOT(displayHashRate()));
+    connect(this, SIGNAL(hashReady()), this, SLOT(stop()));
 }
 
 float IMiner::hashRate()
@@ -41,12 +42,20 @@ void IMiner::start()
 void IMiner::stop()
 {
     LOG_TRACE;
+
+    if (state() != MinerState_Run)
+    {
+        LOG_DEBUG << tr("Miner already stopped");
+        return;
+    }
     m_tmrHashrate->stop();
+    setState(MinerState_Stop);
+    QThread::terminate();
 }
 
 void IMiner::displayHashRate()
 {
-    LOG_DEBUG << hashRate() << "hash/sec";
+    LOG_INFO << hashRate() << "hash/sec";
 }
 
 void IMiner::resetTime()
