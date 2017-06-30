@@ -40,7 +40,7 @@ private:
     byte *getHash(byte *buffer, quint32 length);
     byte *mix(byte Va, byte Vb, byte Vc, byte Vd, byte x, byte y);
 
-    CryptoPP::BLAKE2b *_crypto;
+    //CryptoPP::BLAKE2b *_crypto;
 };
 
 #endif // BLAKE2B_H

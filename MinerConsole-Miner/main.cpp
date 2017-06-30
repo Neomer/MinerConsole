@@ -2,28 +2,7 @@
 #include <src/logs/Logger.h>
 #include <src/algo/Blake2b.h>
 
-#include <cuda_runtime.h>
-#if CUDART_VERSION < 5000
-
-// CUDA-C includes
-#include <cuda.h>
-
-// This function wraps the CUDA Driver API into a template function
-template <class T>
-inline void getCudaAttribute(T *attribute, CUdevice_attribute device_attribute, int device)
-{
-    CUresult error =    cuDeviceGetAttribute(attribute, device_attribute, device);
-
-    if (CUDA_SUCCESS != error)
-    {
-        fprintf(stderr, "cuSafeCallNoSync() Driver API error = %04d from file <%s>, line %i.\n",
-                error, __FILE__, __LINE__);
-
-        exit(EXIT_FAILURE);
-    }
-}
-
-#endif /* CUDART_VERSION < 5000 */
+#include <CLUtil.hpp>
 
 int main(int argc, char *argv[])
 {
@@ -50,10 +29,36 @@ int main(int argc, char *argv[])
 
     Blake2b *bl = new Blake2b(&a);
     bl->setJob((IJob *)1);
-    bl->start();
+    //bl->start();
 
-    //int deviceCount;
-    //cudaGetDeviceCount(&deviceCount);
+    cl_uint p_cnt = 0, d_cnt = 0;
+
+    cl_platform_id platforms[10];
+    if (clGetPlatformIDs(10, platforms, &p_cnt) != CL_SUCCESS)
+    {
+        LOG_DEBUG << "OpenCL Error!";
+    }
+    LOG_INFO << "Total platforms:" << p_cnt;
+
+    for (int i = 0; i < p_cnt; i++)
+    {
+        cl_device_id devs[10];
+        if (clGetDeviceIDs(platforms[i], CL_DEVICE_TYPE_ALL, 10, devs, &d_cnt) != CL_SUCCESS)
+        {
+            LOG_DEBUG << "OpenCL Error!";
+        }
+        LOG_INFO << "Found" << d_cnt << "device(s)" << "for platfom";
+        for (int d = 0; d < d_cnt; d++)
+        {
+            char buf[1024];
+            size_t b_size;
+            clGetDeviceInfo(devs[d], CL_DEVICE_NAME, 1024, buf, &b_size);
+            LOG_INFO << "Device:" << buf;
+            cl_ulong size = 0;
+            clGetDeviceInfo(devs[d], CL_DEVICE_GLOBAL_MEM_SIZE, sizeof(cl_ulong), &size, 0);
+            LOG_INFO << size / 1048576 << "Mbytes";
+        }
+    }
 
     return a.exec();
 }

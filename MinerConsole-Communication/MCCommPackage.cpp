@@ -38,4 +38,5 @@ void MCCommPackage::parse(QByteArray json_array)
 bool MCCommPackage::dispatch(QString action, QVariant data)
 {
     LOG_TRACE << action << data;
+    return true;
 }
